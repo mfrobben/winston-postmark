@@ -1,0 +1,15 @@
+{
+  "author": "Adslot (http://adslot.com)",
+  "name": "winston-postmark",
+  "description": "Winston transport using Postmark API (http://www.postmarkapp.com)",
+  "version": "0.0.1",
+  "homepage": "https://github.com/adslot/winston-postmark",
+  "repository": {
+    "url": "https://github.com/adslot/winston-postmark.git"
+  },
+  "dependencies" : {
+    "winston": "*",
+    "postmark": "*"
+  },
+  "main": "winston-postmark.js"
+}
