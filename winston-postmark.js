@@ -22,8 +22,8 @@
     }
     
     // sane lib defaults
-    htmlBody = undefined
-    textBody = "" + (JSON.stringify(msg)) + "\n\n\n" + (JSON.stringify(meta))
+    var htmlBody = undefined
+    var textBody = "" + (JSON.stringify(msg)) + "\n\n\n" + (JSON.stringify(meta))
 
     // if this is our error that's been persisted to DB via JSON.stringify, we have to do special parsing to make HTML email look nice.
     if (meta.details && meta.stack){
