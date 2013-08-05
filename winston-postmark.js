@@ -20,26 +20,27 @@
       this.postmarkSubject = options.postmarkSubject || '';
       this.postmark = require('postmark')(this.postmarkApiKey);
     }
-    
-    // sane lib defaults
-    var htmlBody = undefined
-    var textBody = "" + (JSON.stringify(msg)) + "\n\n\n" + (JSON.stringify(meta))
-
-    // if this is our error that's been persisted to DB via JSON.stringify, we have to do special parsing to make HTML email look nice.
-    if (meta.details && meta.stack){
-      try{
-          var obj = JSON.parse(meta.details)
-          htmlBody = "<pre><code>" + msg + "</code></pre><br/><br/><pre><code>" + JSON.stringify(obj, undefined, 4) + "</code></pre><br/><pre><code>" + meta.stack + "</code></pre>"
-          textBody = "" + (JSON.stringify(msg)) + "\n\n" + (JSON.stringify(obj, undefined, 4)) + "\n" + meta.stack
-      }
-      catch(err){
-          // if JSON.parse fails, just use defaults
-      }
-    }
-
 
     Postmark.prototype.log = function(level, msg, meta, callback) {
       if (this.silent) return callback(null, true);
+      
+      // sane lib defaults
+      var htmlBody = undefined
+      var textBody = "" + (JSON.stringify(msg)) + "\n\n\n" + (JSON.stringify(meta))
+  
+      // if this is our error that's been persisted to DB via JSON.stringify, we have to do special parsing to make HTML email look nice.
+      if (meta.details && meta.stack){
+        try{
+            var obj = JSON.parse(meta.details)
+            htmlBody = "<pre><code>" + msg + "</code></pre><br/><br/><pre><code>" + JSON.stringify(obj, undefined, 4) + "</code></pre><br/><pre><code>" + meta.stack + "</code></pre>"
+            textBody = "" + (JSON.stringify(msg)) + "\n\n" + (JSON.stringify(obj, undefined, 4)) + "\n" + meta.stack
+        }
+        catch(err){
+            // if JSON.parse fails, just use defaults
+        }
+      }
+
+      
       this.postmark.send({
         'From': this.postmarkFrom,
         'To': this.postmarkTo,
